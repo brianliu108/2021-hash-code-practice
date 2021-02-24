@@ -38,6 +38,19 @@ namespace _2020hashcodepractice {
             return s.ToString();
         }
 
+        public string fileSaveLine()
+        {
+            StringBuilder strBuilder = new StringBuilder()
+                .Append(pizzas.Count);
+
+            foreach (var pizza in pizzas)
+            {
+                strBuilder.Append(" ").Append(pizza.id);
+            }
+
+            return strBuilder.ToString();
+        }
+
         public bool givePizza(Pizza pizza) {
             if (pizza.Used)
                 return false;

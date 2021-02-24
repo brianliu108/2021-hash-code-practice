@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using static _2020hashcodepractice.Team.TeamSize;
@@ -30,7 +31,7 @@ namespace _2020hashcodepractice {
         const int SIZE_THREE = (int) Team.TeamSize.THREE;
         const int SIZE_FOUR = (int) Team.TeamSize.FOUR;
 
-        static readonly Team.TeamSize[] teamSizes = new[] {FOUR, THREE, TWO};
+        static readonly Team.TeamSize[] teamSizes = new[] {FOUR, THREE, TWO};        
 
         public string printAllTeams() {
             StringBuilder s = new StringBuilder();
@@ -38,6 +39,18 @@ namespace _2020hashcodepractice {
                 foreach (Team team in teams[currentSize])
                     s.Append(team.GetPizzaStringList()).Append("\n");
             return s.ToString();
+        }
+
+        public void saveOutputToFile()
+        {
+            using (StreamWriter writer = new StreamWriter(@".\output", false))
+            {                
+                writer.WriteLine((teams[SIZE_TWO].Count + teams[SIZE_THREE].Count + teams[SIZE_FOUR].Count).ToString());
+
+                for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--)
+                    foreach (Team team in teams[currentSize])
+                        writer.WriteLine(team.fileSaveLine());
+            }
         }
 
         public long getScore() {
@@ -121,6 +134,7 @@ namespace _2020hashcodepractice {
                         int currentDupes = Pizza.NumDuplicates(pizzasToCheck);
 
                         if (currentDupes <= minAcceptedDupes) {
+                            pizzas.Remove(firstPizza);
                             team.givePizza(firstPizza);
                         }
 

@@ -16,7 +16,8 @@ namespace _2020hashcodepractice {
             Console.WriteLine("\n======== FINISHED ASSIGNING PIZZAS ========\n");
             Console.WriteLine("Score: " + pizzaManager.getScore() + "\n");
             Console.WriteLine(pizzaManager.checkTeamSizes());
-            Console.WriteLine(pizzaManager.printAllTeams());
+            //Console.WriteLine(pizzaManager.printAllTeams());
+            pizzaManager.saveOutputToFile();
             Console.ReadLine();
         }
 
@@ -34,7 +35,10 @@ namespace _2020hashcodepractice {
                 string tempLine = lines[i].Substring(lines[i].IndexOf(' ') + 1);
                 string[] toppings = tempLine.Split(' ');
                 Pizza pizza = new Pizza(pizzaManager, i, toppings);
-                Console.WriteLine(pizza);
+                if(i < 10)
+                    Console.WriteLine(pizza);
+                else if(i == 11)
+                    Console.WriteLine("...");
                 pizzaManager.addPizza(pizza);
             }
         }

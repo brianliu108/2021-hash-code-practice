@@ -118,10 +118,10 @@ namespace _2020hashcodepractice {
                 int minDupes = int.MaxValue;
                 for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--) {
                     foreach (Team team in teams[currentSize]) {
-                        //if (team.pizzas.Count < team.MaxPizzas)
-                        //{
+                        if (team.pizzas.Count < team.MaxPizzas)
+                        {
 
-                        //}
+                        }
 
                         Pizza firstPizza = pizzas.FirstOrDefault(x => !x.Used);
                         Pizza[] pizzasToCheck = new Pizza[team.pizzas.Count + 1];

@@ -41,9 +41,10 @@ namespace _2020hashcodepractice {
             return s.ToString();
         }
 
-        public void saveOutputToFile() {
-            using (StreamWriter writer = new StreamWriter(@".\output", false)) {
+        public void saveOutputToFile(string fileName) {
+            using (StreamWriter writer = new StreamWriter(@".\" + fileName, false)) {
                 writer.WriteLine((teams[SIZE_TWO].Count + teams[SIZE_THREE].Count + teams[SIZE_FOUR].Count).ToString());
+
                 for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--)
                     foreach (Team team in teams[currentSize])
                         writer.WriteLine(team.fileSaveLine());

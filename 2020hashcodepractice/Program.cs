@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace _2020hashcodepractice {
     class Program {
-        private static readonly string[] files = new[] {
+        public static readonly string[] files = new[] {
             "a_example",
             "b_little_bit_of_everything.in",
             "c_many_ingredients.in",
@@ -18,15 +18,19 @@ namespace _2020hashcodepractice {
         private static PizzaManager pizzaManager;
 
         static void Main(string[] args) {
-            string fileName = files[3];
-            Console.WriteLine("\n============ DOING NEW FILE ============\nFile: " + fileName);
-            InitPizzaManager(fileName);
-            PizzaMain();
+            string fileName = files[0];
+            for (int i = 0; i < files.Length; i++)
+            {
+                Console.WriteLine("\n============ DOING NEW FILE ============\nFile: " + files[i]);
+                InitPizzaManager(files[i]);
+                PizzaMain(files[i]);
+            }
+            
             Console.ReadLine();
         }
 
-        private static void InitPizzaManager(string fileNameIsh) {
-            string[] lines = System.IO.File.ReadAllLines(@".\hashpractice\" + fileNameIsh);
+        private static void InitPizzaManager(string fileName) {
+            string[] lines = System.IO.File.ReadAllLines(@".\hashpractice\" + fileName);
             string[] firstLineInfo = lines[0].Split(' ');
 
             pizzaManager = new PizzaManager(
@@ -47,13 +51,13 @@ namespace _2020hashcodepractice {
             }
         }
 
-        public static void PizzaMain() {
+        public static void PizzaMain(string fileName) {
             pizzaManager.givesPizzas_LargerTeams();
             Console.WriteLine("\n==== FINISHED ASSIGNING PIZZAS ====\n");
             Console.WriteLine("Score: " + pizzaManager.getScore() + "\n");
             Console.WriteLine(pizzaManager.checkTeamSizes());
             //Console.WriteLine(pizzaManager.printAllTeams());
-            pizzaManager.saveOutputToFile();
+            pizzaManager.saveOutputToFile(fileName);
         }
     }
 }

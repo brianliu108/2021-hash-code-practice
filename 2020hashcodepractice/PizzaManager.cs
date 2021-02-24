@@ -101,6 +101,7 @@ namespace _2020hashcodepractice {
             int minAcceptedDupes = 0;
 
             while (pizzasLeft > 0) {
+                Console.WriteLine("Pizzas left: " + pizzasLeft);
                 int minDupes = int.MaxValue;
                 for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--) {
                     foreach (Team team in teams[currentSize]) {

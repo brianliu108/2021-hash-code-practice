@@ -12,6 +12,9 @@ namespace _2020hashcodepractice {
 
         static void Main(string[] args) {
             Init();
+
+
+
             Console.ReadLine();
         }
 

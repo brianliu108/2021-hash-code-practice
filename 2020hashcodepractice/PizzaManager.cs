@@ -116,10 +116,11 @@ namespace _2020hashcodepractice {
             while (pizzasLeft > 0) {
                 Console.WriteLine("Pizzas left: " + pizzasLeft);
                 int minDupes = int.MaxValue;
-                for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--) {
+                for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--) {                    
+
                     foreach (Team team in teams[currentSize]) {
-                        if (team.pizzas.Count < team.MaxPizzas)
-                        {
+                        //if (team.pizzas.Count < team.MaxPizzas)
+                        //{
 
                         }
 

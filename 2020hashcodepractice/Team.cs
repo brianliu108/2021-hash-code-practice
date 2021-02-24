@@ -25,12 +25,12 @@ namespace _2020hashcodepractice
 
         public bool givePizza(Pizza pizza)
         {
-            if (pizza.used)
+            if (pizza.Used)
                 return false;
 
             pizzas.Add(pizza);
-            pizza.used = true;
-
+            pizza.Used = true;
+            
             return true;
         }
 
@@ -39,7 +39,7 @@ namespace _2020hashcodepractice
             bool result = pizzas.Remove(pizza);
 
             if (result)
-                pizza.used = false;
+                pizza.Used = false;
 
             return result;
         }

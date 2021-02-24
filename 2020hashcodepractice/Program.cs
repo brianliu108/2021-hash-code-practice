@@ -12,9 +12,9 @@ namespace _2020hashcodepractice {
 
         static void Main(string[] args) {
             Init();
+            pizzaManager.givesPizzas_LargerTeams();
 
-
-
+            Console.WriteLine("finished");
             Console.ReadLine();
         }
 
@@ -31,7 +31,7 @@ namespace _2020hashcodepractice {
             for (int i = 1; i < lines.Length; i++) {
                 string tempLine = lines[i].Substring(lines[i].IndexOf(' ') + 1);
                 string[] toppings = tempLine.Split(' ');
-                Pizza pizza = new Pizza(i, toppings);
+                Pizza pizza = new Pizza(pizzaManager, i, toppings);
                 Console.WriteLine(pizza);
                 pizzaManager.addPizza(pizza);
             }

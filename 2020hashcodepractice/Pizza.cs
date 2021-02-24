@@ -11,17 +11,36 @@ namespace _2020hashcodepractice {
         public readonly int id;
 
         /// <summary> For internal use only. We can only deliver each pizza once, so we must keep track. </summary>
-        public bool used = false;
+        //public bool used = false;
+        private bool used;
+        public bool Used { get => used;
+            set 
+            {
+                if(!used && value)
+                {
+                    pizzaManager.pizzasLeft--;
+                }
+                else if(used && !value)
+                {
+                    pizzaManager.pizzasLeft++;
+                }
+
+                used = value;
+            } 
+        }
 
         /// <summary> This is an array of the toppings as strings. </summary>
         public string[] toppings { get; private set; }
+
+        private PizzaManager pizzaManager;
 
         /// <summary>
         /// Generic constructor.
         /// </summary>
         /// <param name="lineNumber">The index of the pizza (needed for submission)</param>
         /// <param name="toppingsArray">An array containing all toppings and nothing else.</param>
-        public Pizza(int lineNumber, string[] toppingsArray) {
+        public Pizza(PizzaManager pizzaManager, int lineNumber, string[] toppingsArray) {
+            this.pizzaManager = pizzaManager;
             id = lineNumber;
             toppings = toppingsArray;
         }
@@ -58,8 +77,8 @@ namespace _2020hashcodepractice {
         /// <returns>The number of duplicate toppings on the pizzas.</returns>
         public static int NumDuplicates(params Pizza[] pizzas) {
             int numUnique = Pizza.NumUnique(pizzas);
-            int nunTotal = pizzas.Sum(pizza => pizza.toppings.Length);
-            return nunTotal - numUnique;
+            int numTotal = pizzas.Sum(pizza => pizza.toppings.Length);
+            return numTotal - numUnique;
         }
     }
 }

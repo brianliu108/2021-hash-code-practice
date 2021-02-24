@@ -43,7 +43,7 @@ namespace _2020hashcodepractice {
         /// </summary>
         /// <param name="pizzas">The pizzas to count the unique topppings from.</param>
         /// <returns>The number of unique toppings.</returns>
-        public static int numUnique(params Pizza[] pizzas) {
+        public static int NumUnique(params Pizza[] pizzas) {
             HashSet<string> set = new HashSet<string>();
             foreach (var pizza in pizzas)
             foreach (var topping in pizza.toppings)
@@ -56,8 +56,8 @@ namespace _2020hashcodepractice {
         /// </summary>
         /// <param name="pizzas">The pizzas to count the duplicate toppings for.</param>
         /// <returns>The number of duplicate toppings on the pizzas.</returns>
-        public static int numDuplicates(params Pizza[] pizzas) {
-            int numUnique = Pizza.numUnique(pizzas);
+        public static int NumDuplicates(params Pizza[] pizzas) {
+            int numUnique = Pizza.NumUnique(pizzas);
             int nunTotal = pizzas.Sum(pizza => pizza.toppings.Length);
             return nunTotal - numUnique;
         }

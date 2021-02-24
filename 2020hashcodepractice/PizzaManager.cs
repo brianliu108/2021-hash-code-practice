@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using static _2020hashcodepractice.Team.TeamSize;
 
 namespace _2020hashcodepractice
@@ -33,6 +34,14 @@ namespace _2020hashcodepractice
 
         static readonly Team.TeamSize[] teamSizes = new[] { FOUR, THREE, TWO };
 
+        public string printAllTeams() {
+            StringBuilder strb = new StringBuilder();
+            for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--)
+                foreach (Team team in teams[currentSize])
+                    strb.Append(team.GetPizzaStringList()).Append("\n");
+            return strb.ToString();
+        }
+
         /// <summary>
         /// Solution 1
         /// </summary>
@@ -48,7 +57,7 @@ namespace _2020hashcodepractice
                     teams[(int)size].Add(new Team(size));
                 }
             }
-            
+
             int minAcceptedDupes = 0;
 
             while(pizzasLeft > 0)
@@ -56,8 +65,7 @@ namespace _2020hashcodepractice
                 int minDupes = int.MaxValue;
                 for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--)
                 {
-                    foreach (Team team in teams[currentSize])
-                    {
+                    foreach (Team team in teams[currentSize]) {
                         Pizza firstPizza = pizzas.FirstOrDefault(x => !x.Used);
                         Pizza[] pizzasToCheck = new Pizza[team.pizzas.Count + 1];
 
@@ -73,15 +81,17 @@ namespace _2020hashcodepractice
                         {
                             team.givePizza(firstPizza);
                         }
-                        
+
                         if(currentDupes < minDupes)
                         {
                             minDupes = currentDupes;
                         }
+
+                        if (pizzasLeft == 0) return;
                     }
                 }
                 minAcceptedDupes = minDupes;
-            }            
+            }
         }
 
         public bool canMakeGivenSize(int teamSize)

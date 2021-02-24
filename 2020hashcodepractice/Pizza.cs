@@ -37,6 +37,7 @@ namespace _2020hashcodepractice {
         /// <summary>
         /// Generic constructor.
         /// </summary>
+        /// <param name="pizzaManager">The pizza's manager.</param>
         /// <param name="lineNumber">The index of the pizza (needed for submission)</param>
         /// <param name="toppingsArray">An array containing all toppings and nothing else.</param>
         public Pizza(PizzaManager pizzaManager, int lineNumber, string[] toppingsArray) {

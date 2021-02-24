@@ -45,7 +45,7 @@ namespace _2020hashcodepractice {
 
             foreach (var pizza in pizzas)
             {
-                strBuilder.Append(" ").Append(pizza.id);
+                strBuilder.Append(" ").Append(pizza.id - 1);
             }
 
             return strBuilder.ToString();

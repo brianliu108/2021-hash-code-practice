@@ -22,11 +22,11 @@ namespace _2020hashcodepractice {
         public string GetPizzaStringList() {
             int numUnique = Pizza.NumUnique(pizzas.ToArray());
             StringBuilder s = new StringBuilder()
-                .Append("Pizzas: ").Append(pizzas.Count)
-                .Append(" | Unique T: ").Append(numUnique)
-                .Append(" | Waisted Toppings: ").Append(Pizza.NumDuplicates(pizzas.ToArray()))
-                .Append(" | Score: ").Append(numUnique * numUnique)
-                .Append(" | Pizzas... ");
+                .Append("Pizzas: ").Append(pizzas.Count.ToString().PadRight(6))
+                .Append(" Unique T: ").Append(numUnique.ToString().PadRight(6))
+                .Append(" Waisted T: ").Append(Pizza.NumDuplicates(pizzas.ToArray()).ToString().PadRight(6))
+                .Append(" Score: ").Append((numUnique * numUnique).ToString().PadRight(6))
+                .Append(" Pizzas... ");
             foreach (Pizza pizza in pizzas) s.Append(" ").Append(pizza.id);
             return s.ToString();
         }

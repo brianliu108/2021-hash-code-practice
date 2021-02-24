@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using static _2020hashcodepractice.Team.TeamSize;
 
-namespace _2020hashcodepractice
-{
-    public class PizzaManager
-    {
+namespace _2020hashcodepractice {
+    public class PizzaManager {
         public readonly int numOfPizzas;
         public readonly int[] teamMax = new int[3];
         public List<Team>[] teams = new List<Team>[3];
@@ -14,8 +13,7 @@ namespace _2020hashcodepractice
 
         private List<Pizza> pizzas = new List<Pizza>();
 
-        public PizzaManager(int numOfPizzas, int team2Count, int team3Count, int team4Count)
-        {
+        public PizzaManager(int numOfPizzas, int team2Count, int team3Count, int team4Count) {
             this.numOfPizzas = pizzasLeft = numOfPizzas;
             teamMax[SIZE_TWO] = team2Count;
             teamMax[SIZE_THREE] = team3Count;
@@ -28,69 +26,92 @@ namespace _2020hashcodepractice
 
         public void addPizza(Pizza pizza) => pizzas.Add(pizza);
 
-        const int SIZE_TWO = (int)Team.TeamSize.TWO;
-        const int SIZE_THREE = (int)Team.TeamSize.THREE;
-        const int SIZE_FOUR = (int)Team.TeamSize.FOUR;
+        const int SIZE_TWO = (int) Team.TeamSize.TWO;
+        const int SIZE_THREE = (int) Team.TeamSize.THREE;
+        const int SIZE_FOUR = (int) Team.TeamSize.FOUR;
 
-        static readonly Team.TeamSize[] teamSizes = new[] { FOUR, THREE, TWO };
+        static readonly Team.TeamSize[] teamSizes = new[] {FOUR, THREE, TWO};
 
         public string printAllTeams() {
-            StringBuilder strb = new StringBuilder();
+            StringBuilder s = new StringBuilder();
             for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--)
                 foreach (Team team in teams[currentSize])
-                    strb.Append(team.GetPizzaStringList()).Append("\n");
-            return strb.ToString();
+                    s.Append(team.GetPizzaStringList()).Append("\n");
+            return s.ToString();
+        }
+
+        public string checkTeamSizes() {
+            int team2count = 0;
+            int team3count = 0;
+            int team4count = 0;
+            for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--)
+                foreach (Team team in teams[currentSize])
+                    switch (team.teamSize) {
+                        case TWO:
+                            team2count++;
+                            break;
+                        case THREE:
+                            team3count++;
+                            break;
+                        case FOUR:
+                            team4count++;
+                            break;
+                        default: throw new ArgumentOutOfRangeException();
+                    }
+            bool t2valid = team2count <= teamMax[SIZE_TWO];
+            bool t3valid = team3count <= teamMax[SIZE_THREE];
+            bool t4valid = team4count <= teamMax[SIZE_FOUR];
+            bool allValid = t2valid & t3valid & t4valid;
+            StringBuilder s = new StringBuilder();
+            s.Append("Team counts: " + (allValid ? "Good!" : "NOPE! NOPE! NOPE!")).Append("\n")
+                .Append($"  Size 2 teams: {team2count}/{teamMax[SIZE_TWO]}\n")
+                .Append($"  Size 3 teams: {team2count}/{teamMax[SIZE_THREE]}\n")
+                .Append($"  Size 4 teams: {team2count}/{teamMax[SIZE_FOUR]}\n");
+            return s.ToString();
         }
 
         /// <summary>
         /// Solution 1
         /// </summary>
         /// <param name="team"></param>
-        public void givesPizzas_LargerTeams()
-        {
+        public void givesPizzas_LargerTeams() {
             pizzas = pizzas.OrderBy(x => x.toppings.Length).ToList();
-            int pizzasAssignable = numOfPizzas;    
+            int pizzasAssignable = numOfPizzas;
 
-            foreach (Team.TeamSize size in teamSizes)
-            {
-                while (canMakeGivenSize((int)size, pizzasAssignable) && shouldMakeGivenSize((int)size, pizzasAssignable))
-                {
-                    teams[(int)size].Add(new Team(size));
-                    pizzasAssignable -= (int)size + 2;
+            foreach (Team.TeamSize size in teamSizes) {
+                while (canMakeGivenSize((int) size, pizzasAssignable) &&
+                       shouldMakeGivenSize((int) size, pizzasAssignable)) {
+                    teams[(int) size].Add(new Team(size));
+                    pizzasAssignable -= (int) size + 2;
                 }
             }
 
             int minAcceptedDupes = 0;
 
-            while(pizzasLeft > 0)
-            {
+            while (pizzasLeft > 0) {
                 int minDupes = int.MaxValue;
-                for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--)
-                {
+                for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--) {
                     foreach (Team team in teams[currentSize]) {
                         //if (team.pizzas.Count < team.MaxPizzas)
                         //{
 
                         //}
-                            
+
                         Pizza firstPizza = pizzas.FirstOrDefault(x => !x.Used);
                         Pizza[] pizzasToCheck = new Pizza[team.pizzas.Count + 1];
 
                         pizzasToCheck[0] = firstPizza;
-                        for (int i = 1; i < pizzasToCheck.Length; i++)
-                        {
+                        for (int i = 1; i < pizzasToCheck.Length; i++) {
                             pizzasToCheck[i] = team.pizzas[i - 1];
                         }
 
                         int currentDupes = Pizza.NumDuplicates(pizzasToCheck);
 
-                        if (currentDupes <= minAcceptedDupes)
-                        {
+                        if (currentDupes <= minAcceptedDupes) {
                             team.givePizza(firstPizza);
                         }
 
-                        if(currentDupes < minDupes)
-                        {
+                        if (currentDupes < minDupes) {
                             minDupes = currentDupes;
                         }
 
@@ -101,13 +122,11 @@ namespace _2020hashcodepractice
             }
         }
 
-        public bool canMakeGivenSize(int teamSize, int pizzA)
-        {
+        public bool canMakeGivenSize(int teamSize, int pizzA) {
             return ((teamMax[teamSize] > teams[teamSize].Count) && (pizzA >= teamSize + 2));
         }
 
-        public bool shouldMakeGivenSize(int teamSize, int pizzA)
-        {
+        public bool shouldMakeGivenSize(int teamSize, int pizzA) {
             return (((pizzA - (teamSize + 2)) >= 2) || teamSize == SIZE_TWO);
         }
 

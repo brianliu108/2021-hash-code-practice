@@ -15,6 +15,7 @@ namespace _2020hashcodepractice {
             pizzaManager.givesPizzas_LargerTeams();
 
             Console.WriteLine("\n======== FINISHED ASSIGNING PIZZAS ========\n");
+            Console.WriteLine(pizzaManager.checkTeamSizes());
             Console.WriteLine(pizzaManager.printAllTeams());
             Console.ReadLine();
         }

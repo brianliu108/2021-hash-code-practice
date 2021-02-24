@@ -66,7 +66,11 @@ namespace _2020hashcodepractice {
             s.Append("Team counts: " + (allValid ? "Good!" : "NOPE! NOPE! NOPE!")).Append("\n")
                 .Append($"  {(t2valid ? "✓ " : "")}Size 2 teams: {team2count}/{teamMax[SIZE_TWO]}\n")
                 .Append($"  {(t3valid ? "✓ " : "")}Size 3 teams: {team3count}/{teamMax[SIZE_THREE]}\n")
-                .Append($"  {(t4valid ? "✓ " : "")}Size 4 teams: {team4count}/{teamMax[SIZE_FOUR]}\n");
+                .Append($"  {(t4valid ? "✓ " : "")}Size 4 teams: {team4count}/{teamMax[SIZE_FOUR]}\n")
+                .Append($"{(allValid ? "✓✓✓ " : "")}" +
+                        $"Total used: {team2count + team3count + team4count}/" +
+                        $"{teamMax[SIZE_TWO] + teamMax[SIZE_THREE] + teamMax[SIZE_FOUR]}\n");
+
             return s.ToString();
         }
 

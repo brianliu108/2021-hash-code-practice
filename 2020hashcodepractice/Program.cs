@@ -18,11 +18,10 @@ namespace _2020hashcodepractice {
         private static PizzaManager pizzaManager;
 
         static void Main(string[] args) {
-            foreach (string fileNameIsh in files) {
-                Console.WriteLine("\n============ DOING NEW FILE ============\nFile: " + fileNameIsh);
-                InitPizzaManager(fileNameIsh);
-                PizzaMain();
-            }
+            string fileName = files[3];
+            Console.WriteLine("\n============ DOING NEW FILE ============\nFile: " + fileName);
+            InitPizzaManager(fileName);
+            PizzaMain();
             Console.ReadLine();
         }
 

@@ -15,6 +15,13 @@ namespace _2020hashcodepractice {
             get => (int) teamSize + 2;
         }
 
+        public int Score {
+            get {
+                int unique = Pizza.NumUnique(pizzas.ToArray());
+                return unique * unique;
+            }
+        }
+
         public Team(TeamSize teamSize) {
             this.teamSize = teamSize;
         }

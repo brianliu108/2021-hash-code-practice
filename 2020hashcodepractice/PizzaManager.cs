@@ -64,9 +64,9 @@ namespace _2020hashcodepractice {
             bool allValid = t2valid & t3valid & t4valid;
             StringBuilder s = new StringBuilder();
             s.Append("Team counts: " + (allValid ? "Good!" : "NOPE! NOPE! NOPE!")).Append("\n")
-                .Append($"  Size 2 teams: {team2count}/{teamMax[SIZE_TWO]}\n")
-                .Append($"  Size 3 teams: {team2count}/{teamMax[SIZE_THREE]}\n")
-                .Append($"  Size 4 teams: {team2count}/{teamMax[SIZE_FOUR]}\n");
+                .Append($"  {(t2valid ? "✓ " : "")}Size 2 teams: {team2count}/{teamMax[SIZE_TWO]}\n")
+                .Append($"  {(t3valid ? "✓ " : "")}Size 3 teams: {team2count}/{teamMax[SIZE_THREE]}\n")
+                .Append($"  {(t4valid ? "✓ " : "")}Size 4 teams: {team2count}/{teamMax[SIZE_FOUR]}\n");
             return s.ToString();
         }
 

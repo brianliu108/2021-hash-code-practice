@@ -13,7 +13,6 @@ namespace _2020hashcodepractice {
         static void Main(string[] args) {
             Init();
             pizzaManager.givesPizzas_LargerTeams();
-
             Console.WriteLine("\n======== FINISHED ASSIGNING PIZZAS ========\n");
             Console.WriteLine(pizzaManager.checkTeamSizes());
             Console.WriteLine(pizzaManager.printAllTeams());

@@ -31,7 +31,7 @@ namespace _2020hashcodepractice {
         const int SIZE_THREE = (int) Team.TeamSize.THREE;
         const int SIZE_FOUR = (int) Team.TeamSize.FOUR;
 
-        static readonly Team.TeamSize[] teamSizes = new[] {FOUR, THREE, TWO};        
+        static readonly Team.TeamSize[] teamSizes = new[] {FOUR, THREE, TWO};
 
         public string printAllTeams() {
             StringBuilder s = new StringBuilder();
@@ -41,12 +41,9 @@ namespace _2020hashcodepractice {
             return s.ToString();
         }
 
-        public void saveOutputToFile()
-        {
-            using (StreamWriter writer = new StreamWriter(@".\output", false))
-            {                
+        public void saveOutputToFile() {
+            using (StreamWriter writer = new StreamWriter(@".\output", false)) {
                 writer.WriteLine((teams[SIZE_TWO].Count + teams[SIZE_THREE].Count + teams[SIZE_FOUR].Count).ToString());
-
                 for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--)
                     foreach (Team team in teams[currentSize])
                         writer.WriteLine(team.fileSaveLine());
@@ -114,35 +111,28 @@ namespace _2020hashcodepractice {
             int minAcceptedDupes = 0;
 
             while (pizzasLeft > 0) {
-                Console.WriteLine("Pizzas left: " + pizzasLeft);
+                // Console.WriteLine("Pizzas left: " + pizzasLeft);
                 int minDupes = int.MaxValue;
-                for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--) {                    
-
+                for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--) {
                     foreach (Team team in teams[currentSize]) {
-                        //if (team.pizzas.Count < team.MaxPizzas)
-                        //{
-
+                        if (team.pizzas.Count < team.MaxPizzas) {
+                            // Find best pizza
+                            Pizza firstPizza = pizzas.FirstOrDefault(x => !x.Used);
+                            // Make an array of the pizzas to compare
+                            Pizza[] pizzasToCheck = new Pizza[team.pizzas.Count + 1];
+                            pizzasToCheck[0] = firstPizza;
+                            for (int i = 1; i < pizzasToCheck.Length; i++) pizzasToCheck[i] = team.pizzas[i - 1];
+                            // See how many duplicates there are, do we want this pizza?
+                            int currentDupes = Pizza.NumDuplicates(pizzasToCheck);
+                            if (currentDupes <= minAcceptedDupes) {
+                                // Take the pizza
+                                team.givePizza(firstPizza);
+                                pizzas.Remove(firstPizza); // Remove for effeciency
+                            }
+                            // Save the min for later
+                            if (currentDupes < minDupes) minDupes = currentDupes;
                         }
-
-                        Pizza firstPizza = pizzas.FirstOrDefault(x => !x.Used);
-                        Pizza[] pizzasToCheck = new Pizza[team.pizzas.Count + 1];
-
-                        pizzasToCheck[0] = firstPizza;
-                        for (int i = 1; i < pizzasToCheck.Length; i++) {
-                            pizzasToCheck[i] = team.pizzas[i - 1];
-                        }
-
-                        int currentDupes = Pizza.NumDuplicates(pizzasToCheck);
-
-                        if (currentDupes <= minAcceptedDupes) {
-                            pizzas.Remove(firstPizza);
-                            team.givePizza(firstPizza);
-                        }
-
-                        if (currentDupes < minDupes) {
-                            minDupes = currentDupes;
-                        }
-
+                        // If we done, bail.
                         if (pizzasLeft == 0) return;
                     }
                 }

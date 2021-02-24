@@ -49,12 +49,14 @@ namespace _2020hashcodepractice
         public void givesPizzas_LargerTeams()
         {
             pizzas = pizzas.OrderBy(x => x.toppings.Length).ToList();
+            int pizzasAssignable = numOfPizzas;    
 
             foreach (Team.TeamSize size in teamSizes)
             {
-                while (canMakeGivenSize((int)size) && shouldMakeGivenSize((int)size))
+                while (canMakeGivenSize((int)size, pizzasAssignable) && shouldMakeGivenSize((int)size, pizzasAssignable))
                 {
                     teams[(int)size].Add(new Team(size));
+                    pizzasAssignable -= (int)size + 2;
                 }
             }
 
@@ -66,6 +68,11 @@ namespace _2020hashcodepractice
                 for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--)
                 {
                     foreach (Team team in teams[currentSize]) {
+                        //if (team.pizzas.Count < team.MaxPizzas)
+                        //{
+
+                        //}
+                            
                         Pizza firstPizza = pizzas.FirstOrDefault(x => !x.Used);
                         Pizza[] pizzasToCheck = new Pizza[team.pizzas.Count + 1];
 
@@ -94,14 +101,14 @@ namespace _2020hashcodepractice
             }
         }
 
-        public bool canMakeGivenSize(int teamSize)
+        public bool canMakeGivenSize(int teamSize, int pizzA)
         {
-            return ((teamMax[teamSize] > teams[teamSize].Count) && (pizzasLeft >= teamSize + 2));
+            return ((teamMax[teamSize] > teams[teamSize].Count) && (pizzA >= teamSize + 2));
         }
 
-        public bool shouldMakeGivenSize(int teamSize)
+        public bool shouldMakeGivenSize(int teamSize, int pizzA)
         {
-            return (((pizzasLeft - teamSize + 2) > 2) || teamSize == SIZE_TWO);
+            return (((pizzA - (teamSize + 2)) >= 2) || teamSize == SIZE_TWO);
         }
 
         //public bool assignPizza(Pizza pizza, int teamMembers)

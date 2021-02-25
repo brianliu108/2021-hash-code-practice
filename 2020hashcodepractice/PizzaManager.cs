@@ -14,6 +14,8 @@ namespace _2020hashcodepractice {
 
         private List<Pizza> pizzas = new List<Pizza>();
 
+        public int MaxPeople => teamMax[SIZE_TWO] * 2 + teamMax[SIZE_THREE] * 3 + teamMax[SIZE_FOUR] * 4;
+
         public PizzaManager(int numOfPizzas, int team2Count, int team3Count, int team4Count) {
             this.numOfPizzas = pizzasLeft = numOfPizzas;
             teamMax[SIZE_TWO] = team2Count;
@@ -93,13 +95,40 @@ namespace _2020hashcodepractice {
             return s.ToString();
         }
 
+        public string checkTeamsFilled() {
+            int t2Errors = 0,
+                t3Errors = 0,
+                t4Errors = 0;
+            for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--)
+                foreach (Team team in teams[currentSize])
+                    switch (team.teamSize) {
+                        case TWO:
+                            if (team.pizzas.Count != 2) t2Errors++;
+                            break;
+                        case THREE:
+                            if (team.pizzas.Count != 3) t3Errors++;
+                            break;
+                        case FOUR:
+                            if (team.pizzas.Count != 4) t4Errors++;
+                            break;
+                        default: throw new ArgumentOutOfRangeException();
+                    }
+            int totalErrors = t2Errors + t3Errors + t4Errors;
+            StringBuilder s = new StringBuilder()
+                .Append("Team number errors: " + (totalErrors > 0 ? totalErrors.ToString() : "✓ None ✓")).Append("\n")
+                .Append($"  {(t2Errors == 0 ? "✓ " : t2Errors.ToString())}").Append("\n")
+                .Append($"  {(t3Errors == 0 ? "✓ " : t3Errors.ToString())}").Append("\n")
+                .Append($"  {(t4Errors == 0 ? "✓ " : t4Errors.ToString())}").Append("\n");
+            return s.ToString();
+        }
+
         /// <summary>
         /// Solution 1
         /// </summary>
         /// <param name="team"></param>
         public void givesPizzas_LargerTeams() {
             pizzas = pizzas.OrderBy(x => x.toppings.Length).ToList();
-            int pizzasAssignable = numOfPizzas;
+            int pizzasAssignable = Math.Min(numOfPizzas,MaxPeople);
 
             foreach (Team.TeamSize size in teamSizes) {
                 while (canMakeGivenSize((int) size, pizzasAssignable) &&
@@ -113,12 +142,13 @@ namespace _2020hashcodepractice {
             int lastNumber = 0;
             int lastNumberCount = 0;
             while (pizzasLeft > 0) {
-                if (pizzasLeft == lastNumber && ++lastNumberCount == 4)
-                    return;
+                if (pizzasLeft == lastNumber) {
+                    if (++lastNumberCount == 4) return;
+                } else lastNumberCount = 0;
 
                 lastNumber = pizzasLeft;
                 
-                Console.WriteLine("Pizzas left: " + pizzasLeft);
+                // Console.WriteLine("Pizzas left: " + pizzasLeft);
                 int minDupes = int.MaxValue;
                 for (int currentSize = SIZE_FOUR; currentSize >= SIZE_TWO; currentSize--) {
                     foreach (Team team in teams[currentSize]) {

@@ -56,6 +56,7 @@ namespace _2020hashcodepractice {
             Console.WriteLine("\n==== FINISHED ASSIGNING PIZZAS ====\n");
             Console.WriteLine("Score: " + pizzaManager.getScore() + "\n");
             Console.WriteLine(pizzaManager.checkTeamSizes());
+            Console.WriteLine(pizzaManager.checkTeamsFilled());
             //Console.WriteLine(pizzaManager.printAllTeams());
             pizzaManager.saveOutputToFile(fileName);
         }

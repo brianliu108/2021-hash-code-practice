@@ -42,7 +42,7 @@ namespace _2020hashcodepractice {
             for (int i = 1; i < lines.Length; i++) {
                 string tempLine = lines[i].Substring(lines[i].IndexOf(' ') + 1);
                 string[] toppings = tempLine.Split(' ');
-                Pizza pizza = new Pizza(pizzaManager, i, toppings);
+                Pizza pizza = new Pizza(pizzaManager, i - 1, toppings);
                 // if (i < 10)
                 //     Console.WriteLine(pizza);
                 // else if (i == 11)

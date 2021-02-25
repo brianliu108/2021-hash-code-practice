@@ -127,7 +127,7 @@ namespace _2020hashcodepractice {
         /// </summary>
         /// <param name="team"></param>
         public void givesPizzas_LargerTeams() {
-            pizzas = pizzas.OrderBy(x => x.toppings.Length).ToList();
+            pizzas = pizzas.OrderByDescending(x => x.toppings.Length).ToList();
             int pizzasAssignable = Math.Min(numOfPizzas,MaxPeople);
 
             foreach (Team.TeamSize size in teamSizes) {
